@@ -32,13 +32,14 @@
             </li>
         </ul>
     </div>
-<el-pagination
-  :page-size="pz"
-  background
-  layout="prev, pager, next"
-  :total="IndexDate.length"
-  @current-change="showDate">
-</el-pagination>
+
+    <el-pagination
+      @current-change="showDate"
+      background
+      :page-size="pz"
+      layout="prev, pager, next, jumper"
+      :total="IndexDate.length">
+    </el-pagination>
         </div>
 
     </div>   
@@ -64,7 +65,7 @@ export default {
             }
     },
     methods:{
-        showDate(val){
+    showDate(val){
                this.fullscreenLoading=true;
       setTimeout(()=>{this.fullscreenLoading=false},1200)
             var max=val*this.pz;
@@ -94,6 +95,21 @@ export default {
     }
     
     },
+          detaile(ide) {
+         
+           this.$axios.get('https://cdn.jsdelivr.net/npm/anime-sachedule-search-data@0.1/dist/subject/'+ide+'.json').then(response => {
+	          console.log(response.data)
+              this.datae = response.data;
+              this.imgObj=this.datae.images;
+              console.log(this.datae)
+              this.fullscreenLoading=false;
+              
+	        },
+	        response => {
+	          console.log('error')
+	        })
+        
+        },
     switchDat(data){
         if(data){      
         let site=data.site;
@@ -174,6 +190,7 @@ export default {
     .title{
         font-size: 20px;
         margin-bottom: 10px;
+        margin-top: 20px;
     }
     .tipTit{
         font-size: 18px;;
